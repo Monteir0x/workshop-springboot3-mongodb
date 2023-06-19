@@ -1,6 +1,7 @@
 package com.monteirox.workshopmongo.services;
 
 import com.monteirox.workshopmongo.domain.User;
+import com.monteirox.workshopmongo.dto.UserDTO;
 import com.monteirox.workshopmongo.repository.UserRepository;
 import com.monteirox.workshopmongo.services.exception.ObjectNotFoundException;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,11 @@ public class UserService {
         return user;
     }
 
-    public User saveUser(User user){
-        return userRepository.save(user);
+    public User insert(User user){
+        return userRepository.insert(user);
+    }
+
+    public User fromDTO(UserDTO userDTO){
+        return new User(userDTO.getId(), userDTO.getName(), userDTO.getEmail());
     }
 }
