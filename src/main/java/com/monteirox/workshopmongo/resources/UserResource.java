@@ -10,6 +10,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -28,6 +29,12 @@ public class UserResource {
             List<User> users = userService.findAll();
             List<UserDTO> dtoList = users.stream().map(UserDTO::new).toList();
             return ResponseEntity.ok().body(dtoList);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDTO> findById(@PathVariable String id){
+        Optional<User> user = userService.findById(id);
+        return ResponseEntity.ok().body(new UserDTO(user));
     }
 
 
