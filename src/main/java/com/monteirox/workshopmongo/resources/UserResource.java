@@ -1,23 +1,45 @@
 package com.monteirox.workshopmongo.resources;
 
 import com.monteirox.workshopmongo.domain.User;
+import com.monteirox.workshopmongo.services.UserService;
+import org.springframework.data.mongodb.UncategorizedMongoDbException;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.net.URI;
 import java.util.List;
 
 @RestController
 @RequestMapping(value = "/users")
 public class UserResource {
 
+    private final UserService userService;
+
+    public UserResource(UserService userService) {
+        this.userService = userService;
+    }
+
+
     @GetMapping
     public ResponseEntity<List<User>> findAll() {
-        User maria = new User("1", "Maria", "maria@gmail.com");
-        User alex = new User("2", "Alex", "alex@gmail.com");
-        return ResponseEntity.ok().body(new ArrayList<>(Arrays.asList(maria, alex)));
+        try {
+            List<User> users = userService.findAll();
+            return ResponseEntity.ok().body(users);
+        }catch (UncategorizedMongoDbException e) {
+            e.getMostSpecificCause();
+        }
+        return ResponseEntity.ok().body(userService.findAll());
+    }
+
+    @PostMapping()
+    public ResponseEntity<User> createUser(@RequestBody User user) {
+        user = userService.saveUser(user);
+        URI uri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(user.getId())
+                .toUri();
+       return ResponseEntity.created(uri).body(user);
     }
 }
