@@ -1,5 +1,6 @@
 package com.monteirox.workshopmongo.resources;
 
+import com.monteirox.workshopmongo.domain.Post;
 import com.monteirox.workshopmongo.domain.User;
 import com.monteirox.workshopmongo.dto.UserDTO;
 import com.monteirox.workshopmongo.services.UserService;
@@ -63,5 +64,11 @@ public class UserResource {
         user.setId(id);
         user = userService.update(user);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}/posts")
+    public ResponseEntity<List<Post>> findPosts(@PathVariable String id){
+        Optional<User> user = userService.findById(id);
+        return ResponseEntity.ok().body(user.get().getPosts());
     }
 }
