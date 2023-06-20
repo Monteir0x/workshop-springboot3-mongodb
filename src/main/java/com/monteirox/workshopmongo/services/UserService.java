@@ -38,7 +38,7 @@ public class UserService {
         userRepository.deleteById(id);
     }
     public User update(User user){
-        User newUser = userRepository.findOne(user.getId());
+        User newUser = userRepository.findAll().get(Integer.parseInt(user.getId()));
         updateData(newUser, user);
         return userRepository.save(newUser);
     }
