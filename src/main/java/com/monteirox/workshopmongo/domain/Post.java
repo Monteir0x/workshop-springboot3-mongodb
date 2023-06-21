@@ -14,14 +14,14 @@ import java.util.Objects;
 @Document
 public class Post implements Serializable {
     @Serial
-    private static final long serialVersionUID = 1l;
+    private static final long serialVersionUID = 1L;
     @Id
     private String id;
     private Date date;
     private String title;
     private String body;
     private AuthorDTO author;
-    private List<CommentDTO> comments = new ArrayList<CommentDTO>();
+    private List<CommentDTO> comments = new ArrayList<>();
 
     public Post(){}
 

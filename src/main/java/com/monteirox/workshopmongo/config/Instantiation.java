@@ -6,6 +6,7 @@ import com.monteirox.workshopmongo.dto.AuthorDTO;
 import com.monteirox.workshopmongo.dto.CommentDTO;
 import com.monteirox.workshopmongo.repository.PostRepository;
 import com.monteirox.workshopmongo.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 
@@ -15,14 +16,10 @@ import java.util.TimeZone;
 
 @Configuration
 public class Instantiation implements CommandLineRunner {
-    private final UserRepository userRepository;
-    private final PostRepository postRepository;
-
-    public Instantiation(UserRepository userRepository,
-                         PostRepository postRepository) {
-        this.userRepository = userRepository;
-        this.postRepository = postRepository;
-    }
+    @Autowired
+    private  UserRepository userRepository;
+    @Autowired
+    private  PostRepository postRepository;
 
     @Override
     public void run(String... args) throws Exception {

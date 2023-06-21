@@ -4,7 +4,6 @@ import com.monteirox.workshopmongo.domain.Post;
 import com.monteirox.workshopmongo.domain.User;
 import com.monteirox.workshopmongo.dto.UserDTO;
 import com.monteirox.workshopmongo.services.UserService;
-import org.springframework.data.mongodb.UncategorizedMongoDbException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -12,7 +11,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/users")
@@ -38,8 +36,6 @@ public class UserResource {
         return ResponseEntity.ok().body(new UserDTO(user));
     }
 
-
-
     @PostMapping()
     public ResponseEntity<Void> insert(@RequestBody UserDTO userDTO){
         User user = userService.fromDTO(userDTO);
@@ -62,7 +58,7 @@ public class UserResource {
     public ResponseEntity<Void> update(@RequestBody UserDTO userDTO, @PathVariable String id){
         User user = userService.fromDTO(userDTO);
         user.setId(id);
-        user = userService.update(user);
+        userService.update(user);
         return ResponseEntity.noContent().build();
     }
 
