@@ -8,6 +8,7 @@ import com.monteirox.workshopmongo.services.exception.ObjectNotFoundException;
 import javafx.geometry.Pos;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -26,6 +27,10 @@ public class PostService {
             throw new ObjectNotFoundException("Objeto não encontrado");
         }
         return post;
+    }
+
+    public List<Post> findByTitle(String text) {
+        return postRepository.findByTitleContainingIgnoreCase(text);
     }
 
 }
